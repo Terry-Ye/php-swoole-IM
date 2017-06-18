@@ -3,7 +3,6 @@ namespace WebIM;
 
 use Swoole;
 use Swoole\Filter;
-use MeiSha\AccountServer;
 
 class Server extends Swoole\Protocol\CometServer
 {
@@ -141,8 +140,12 @@ class Server extends Swoole\Protocol\CometServer
     {
         switch ($data['data']['type']) {
             case 'wechat':
-                AccountServer::setEnv('local');
-                $userInfo = AccountServer::getWechatInfo($data['data']['code'], Retcode::WECHAT_PLATFORM_ID);
+                $userInfo = [
+                    'unionId' => 'otvZywXmY44dYLK-SKNZhbNBr0P0',
+                    'openid' => 'ocuF9ws38ML445UxFZZJsLqqtOv0',
+                    'nickname' => 'æ±<9f>æ<9b><89>æ<9d>±',
+                    'headimgurl' => 'http://wx.qlogo.cn/mmopen/n3dIuTJ4qbptRVaGHsNicpqqJKMTWBHibw27liahl8O4l2do1YN07S4OwHEoojqWWRHDjCtt2OjrKWbDSlBsPibX3lulGEQBdJ0W/0',
+                ];
                 break;
             case 'auth':
                 break;
@@ -273,12 +276,8 @@ class Server extends Swoole\Protocol\CometServer
     }
 
 
-    public function userLogin($code, $wechatPlatformId)
-    {
-        AccountServer::setEnv('local');
-        $userInfo = AccountServer::getWechatInfo($code, $wechatPlatformId);
-        return $userInfo;
-    }
+
+
     /**
      * 接收到消息时
      * @see WSProtocol::onMessage()
@@ -387,31 +386,6 @@ class Server extends Swoole\Protocol\CometServer
 
     }
 
-    // public function checkLogin($auth)
-    // {
-    //     $data = [
-    //         "code" => Retcode::SUCCESS,
-    //         "msg"  => Retcode::$codeArr[Retcode::SUCCESS],
-    //     ];
-    //     if(!empty($auth))
-    //     {
-    //         $retData = AccountServer::checkLogin($auth);
-    //         if($retData['code'] != 0)
-    //         {
-    //             $this->log("userAuth error: code #". $retData['code'].", msg #".$retData['msg']);
-    //             $data = [
-    //                 "code" => Retcode::ERR_USER_CHECK,
-    //                 "msg"  => Retcode::$codeArr[Retcode::ERR_USER_CHECK],
-    //             ];
-    //         } else
-    //         {
-    //             $data['data'] = $retData['data'];
-    //         }
-    //     }
-
-
-    //     return $data;
-    // }
 
     function onFinish($serv, $taskId, $data)
     {

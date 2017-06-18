@@ -1,16 +1,9 @@
 {
 
     "type": "project",
-    "repositories": [
-        {
-            "type": "git",
-            "url": "ssh://git@112.74.177.120:56000/srv/git/meisha_account_server_php_sdk.git"
-        }
-    ],
     "require": {
         "matyhtf/swoole_framework": "dev-master",
         "predis/predis": "^1.1",
-        "meisha/meisha_account_server_php_sdk": "*"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
